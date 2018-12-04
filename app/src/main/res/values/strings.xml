@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">TopNotch</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="users_request_path">Users Request</string>
+    <string name="event_type">Event Type:</string>
+</resources>

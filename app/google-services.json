@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "331178327824",
+    "firebase_url": "https://t-euphoria.firebaseio.com",
+    "project_id": "t-euphoria",
+    "storage_bucket": "t-euphoria.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:331178327824:android:ac0721fff832c947",
+        "android_client_info": {
+          "package_name": "com.dscfuta.topnotch"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "331178327824-2q010gepujprjb6hq72kapmf976rfonu.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.dscfuta.topnotch",
+            "certificate_hash": "b176e2057c7d0fc69bb442cd1cc683ae8058c7a1"
+          }
+        },
+        {
+          "client_id": "331178327824-nkcoekmsdn2hl9itgmqug5kv0bolj743.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBsbGjr00VYDp78-FckVXot1KKDLSgdNmQ"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "331178327824-nkcoekmsdn2hl9itgmqug5kv0bolj743.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
