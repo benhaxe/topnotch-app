@@ -12,6 +12,24 @@
         tools:layout="@layout/fragment_full_details" >
 
 
+        <argument
+            android:name="name"
+            app:argType="string" />
+        <argument
+            android:name="phoneNumber"
+            app:argType="string" />
+        <argument
+            android:name="eventLocation"
+            app:argType="string" />
+        <argument
+            android:name="eventType"
+            app:argType="string" />
+        <argument
+            android:name="email"
+            app:argType="string" />
+        <argument
+            android:name="id"
+            app:argType="string" />
     </fragment>
 
     <fragment
