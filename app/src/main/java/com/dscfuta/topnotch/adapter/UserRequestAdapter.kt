@@ -94,6 +94,7 @@ class UserRequestAdapter(
 
 class UserRequestHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 
+//Awesome stuffs done
 interface onUserRequestItemClicListener{
     fun onUserRequestItemClick(v : View, name: String, phoneNumber: String, eventLocation: String, eventType: String, email: String, serviceType: List<String>, id: String)
 }
