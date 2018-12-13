@@ -1,5 +1,6 @@
 package com.dscfuta.topnotch
 
+import android.app.ProgressDialog
 import android.content.DialogInterface
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -22,9 +23,9 @@ import com.miguelcatalan.materialsearchview.MaterialSearchView
 class MainActivity : AppCompatActivity(), OnUserRequestItemClicListener, OnDeleteRequestButtonClickListener {
 
     private lateinit var viewModel: RequestsViewModel
-    lateinit var userRequestList: ReloadAdapterData
     lateinit var searchView: MaterialSearchView
 
+    //When the delete button is clicked
     override fun onDeleteButtonClicked(id: String) {
 
         val dialog = AlertDialog.Builder(this)
@@ -32,14 +33,20 @@ class MainActivity : AppCompatActivity(), OnUserRequestItemClicListener, OnDelet
         dialog.setPositiveButton("YES") {
             dialog__, which ->
 
-                dialog.setMessage("Deleting...")
+            val dialog2 = ProgressDialog(this)
+            dialog2.setMessage("Deleting..")
+            dialog2.setCanceledOnTouchOutside(false)
+            dialog2.show()
+
+
             viewModel.deleteRequest(id, {
-                dialog__.dismiss()
-                userRequestList.reloadData()
+
+                dialog2.dismiss()
 
             }, {
-                dialog__.dismiss()
-                Toast.makeText(this, "Error: $it", Toast.LENGTH_LONG)
+                dialog2.dismiss()
+                Toast.makeText(this, "An error occurred. Please check your network connection and try again..",
+                        Toast.LENGTH_LONG)
                         .show()
             })
         }
@@ -77,11 +84,8 @@ class MainActivity : AppCompatActivity(), OnUserRequestItemClicListener, OnDelet
         setContentView(R.layout.activity_main)
 
         viewModel = ViewModelProviders.of(this).get(RequestsViewModel::class.java)
-        userRequestList = UserRequestList()
         searchView = findViewById(R.id.searchView)
         searchView.showSuggestions()
-
-        val userRequestList = UserRequestList()
 
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
@@ -131,8 +135,4 @@ class MainActivity : AppCompatActivity(), OnUserRequestItemClicListener, OnDelet
 
         if(searchView.isSearchOpen)searchView.closeSearch()
     }
-}
-
-interface ReloadAdapterData{
-    fun reloadData()
 }
