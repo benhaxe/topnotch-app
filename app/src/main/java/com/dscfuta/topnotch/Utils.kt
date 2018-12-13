@@ -14,7 +14,7 @@ class Utils {
 
     companion object {
 
-        fun setColorFromText(firstLetter: String, context: Context): Drawable?{
+        fun setDrawableFromText(firstLetter: String, context: Context): Drawable?{
             return when(firstLetter){
 
                 "A" ->  ContextCompat.getDrawable(context, R.drawable.text_label_background_a)

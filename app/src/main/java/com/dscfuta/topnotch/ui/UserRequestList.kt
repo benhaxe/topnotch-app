@@ -16,7 +16,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
 import com.dscfuta.topnotch.R
-import com.dscfuta.topnotch.ReloadAdapterData
 import com.dscfuta.topnotch.adapter.UserRequestAdapter
 import com.dscfuta.topnotch.adapter.OnUserRequestItemClicListener
 import com.dscfuta.topnotch.data.RequestsViewModel
@@ -24,7 +23,7 @@ import com.dscfuta.topnotch.databinding.FragmentUserRequestListBinding
 import com.dscfuta.topnotch.model.FullRequest
 
 
-class UserRequestList : Fragment(), OnUserRequestItemClicListener, ReloadAdapterData {
+class UserRequestList : Fragment(), OnUserRequestItemClicListener {
     override fun onUserRequestItemClick(v: View,
                                         name: String,
                                         phoneNumber: String,
@@ -34,7 +33,7 @@ class UserRequestList : Fragment(), OnUserRequestItemClicListener, ReloadAdapter
                                         id: String /* The Id to be used in retrieving the document in the fullDetailsFragment*/
     ) {
 
-        //Implementing the androidx navigation component -- Passing a buttload of parameters here
+        //Implementing the androidx navigation component -- Passing a load of parameters here
         //Todo: The service type list should be retrieved in the fullDetailsFragment with the id from the fireStore Database..
         Navigation.findNavController(v)
                 .navigate(UserRequestListDirections.actionUserRequestListToFullDetails(name, phoneNumber, eventLocation, eventType, email, id))
@@ -61,10 +60,6 @@ class UserRequestList : Fragment(), OnUserRequestItemClicListener, ReloadAdapter
         recyclerView.apply {
             setHasFixedSize(true)
             layoutManager = manager
-
-            //Gives the fancy gray line between viewHolders
-            addItemDecoration(DividerItemDecoration(context, manager.orientation))
-
         }
 
         binding.progressItemUserFrag.visibility = VISIBLE
@@ -101,11 +96,9 @@ class UserRequestList : Fragment(), OnUserRequestItemClicListener, ReloadAdapter
 
         })
 
+        //Sets up swipe to delete
         ItemTouchHelper(RecyclerSwiper())
                 .attachToRecyclerView(recyclerView)
-
-        //Reload button's retry function..
-
 
 
         return binding.root
@@ -113,73 +106,33 @@ class UserRequestList : Fragment(), OnUserRequestItemClicListener, ReloadAdapter
     }
 
 
-    //That failed swipe mission's class
+    //Swipe to delete class
     inner class RecyclerSwiper : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT) {
         override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder): Boolean {
-
             return false
         }
 
         override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
 
             //When Swiped delete particular request through the id passed in to the itemView's tag
-
-            viewHolder.itemView.visibility = GONE
             viewModel.deleteRequest(viewHolder.itemView.tag.toString(), {
                 Toast.makeText(context!!, "Request deleted successfully", Toast.LENGTH_LONG)
                         .show()
-
-
                 adapter.notifyDataSetChanged()
+
             }, {
+
                 Toast.makeText(context!!, "Error: $it", Toast.LENGTH_LONG)
                         .show()
+
             })
 
             adapter.notifyDataSetChanged()
 
         }
-
     }
 
-     override fun reloadData(){
 
-        binding.progressItemUserFrag.visibility = VISIBLE
-        binding.noRequestsLayout.visibility = GONE
-
-        //Converting and parsing through live data
-        val requestsLiveData = viewModel.getRequests{
-            Toast.makeText(context, it, Toast.LENGTH_LONG)
-                    .show()
-        }
-
-        //Observing..
-        requestsLiveData.observe(this, Observer<List<FullRequest>>{
-
-
-            if(it.isEmpty()){
-
-                //Enables No request yet placeholder
-                binding.noRequestsLayout.visibility = VISIBLE
-                binding.progressItemUserFrag.visibility = GONE
-
-
-            }else{
-
-                //Displays Requests
-                adapter = UserRequestAdapter(it, context!!)
-                adapter.notifyDataSetChanged()
-
-                recyclerView.adapter = adapter
-                binding.progressItemUserFrag.visibility = GONE
-
-            }
-
-        })
-
-
-
-    }
 
     //Function that is supposed to refill the adapter as new text is typed into the search view..
 //    fun onQueryTextSubmit( newText: String){

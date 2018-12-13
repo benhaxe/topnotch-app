@@ -63,11 +63,12 @@ class UserRequestAdapter(
 
 
             itemUserRequestLabel.text = labelText
-            itemUserRequestLabel.backgroundDrawable = Utils.setColorFromText(labelText, context)
+            itemUserRequestLabel.backgroundDrawable = Utils.setDrawableFromText(labelText, context)
         }
 
         val id = userRequestList[position].id
 
+        //Delete Button Function
         binding.deleteRequestButton.setOnClickListener {
 
         try{

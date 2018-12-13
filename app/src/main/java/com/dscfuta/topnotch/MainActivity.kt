@@ -23,9 +23,9 @@ import com.miguelcatalan.materialsearchview.MaterialSearchView
 class MainActivity : AppCompatActivity(), OnUserRequestItemClicListener, OnDeleteRequestButtonClickListener {
 
     private lateinit var viewModel: RequestsViewModel
-    lateinit var userRequestList: ReloadAdapterData
     lateinit var searchView: MaterialSearchView
 
+    //When the delete button is clicked
     override fun onDeleteButtonClicked(id: String) {
 
         val dialog = AlertDialog.Builder(this)
@@ -84,11 +84,8 @@ class MainActivity : AppCompatActivity(), OnUserRequestItemClicListener, OnDelet
         setContentView(R.layout.activity_main)
 
         viewModel = ViewModelProviders.of(this).get(RequestsViewModel::class.java)
-        userRequestList = UserRequestList()
         searchView = findViewById(R.id.searchView)
         searchView.showSuggestions()
-
-        val userRequestList = UserRequestList()
 
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
@@ -138,8 +135,4 @@ class MainActivity : AppCompatActivity(), OnUserRequestItemClicListener, OnDelet
 
         if(searchView.isSearchOpen)searchView.closeSearch()
     }
-}
-
-interface ReloadAdapterData{
-    fun reloadData()
 }
