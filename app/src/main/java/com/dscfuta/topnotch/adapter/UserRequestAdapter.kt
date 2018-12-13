@@ -54,47 +54,87 @@ class UserRequestAdapter(
         binding.itemUserRequestEventTypesRecycler.adapter = adapter
 
         binding.apply {
-            itemUserRequestUserName.text = userRequestList[position].userRequest.name
+            if(userRequestList[position].userRequest.name.length < 30){
+                itemUserRequestUserName.text = userRequestList[position].userRequest.name
+            }else{
+                val shortenedName = userRequestList[position].userRequest.name.substring(0, 30) + "..."
+                itemUserRequestUserName.text = shortenedName
+            }
+
 
             itemUserRequestLabel.text = labelText
             itemUserRequestLabel.backgroundDrawable = Utils.setColorFromText(labelText, context)
         }
 
+        val id = userRequestList[position].id
+
+        binding.deleteRequestButton.setOnClickListener {
+
+        try{
+
+            val deleteClickListener = context as OnDeleteRequestButtonClickListener
+                deleteClickListener.onDeleteButtonClicked(id)
+
+        }catch (e: Exception){
+
+                Toast.makeText(context, "Exception: Fragment/Activity class must implement OnUserRequestItemClickListener", Toast.LENGTH_LONG)
+                        .show()
+                Log.e(UserRequestAdapter::class.java.simpleName, "Exception: Fragment/Activity class must implement OnUserRequestItemClickListener")
+
+            }
+        }
+
+
         //Breaking down each userRequest for fragment passing
         val currentUserRequest =  userRequestList[position].userRequest
 
-        val id = userRequestList[position].id
+
         val name = currentUserRequest.name
         val emailAddress = currentUserRequest.email
         val eventLocation = currentUserRequest.event_location
         val phoneNumber = currentUserRequest.phone
         val eventType = currentUserRequest.event_type
+
+        //No use for serviceType yet
         val serviceType = currentUserRequest.service_type
 
         //Registering the listener
         holder.itemView.setOnClickListener {
-            try {
-                val clickListener  = context as onUserRequestItemClicListener
+
+            try{
+                val clickListener  = context as OnUserRequestItemClicListener
 
                 //Used named arguments to make the parameter passed clearer
                 clickListener.onUserRequestItemClick(it, name = name, phoneNumber = phoneNumber, eventLocation = eventLocation, eventType = eventType,
-                        email = emailAddress, serviceType = serviceType, id = id
-                        )
+                        email = emailAddress,  id = id
+                )
 
-                //Just to be safe
             }catch (e: Exception){
-
+                //Just to be safe
                 Toast.makeText(context, "Exception: Fragment/Activity class must implement OnUserRequestItemClickListener", Toast.LENGTH_LONG)
                         .show()
                 Log.e(UserRequestAdapter::class.java.simpleName, "Exception: Fragment/Activity class must implement OnUserRequestItemClickListener")
+
             }
+
+
         }
     }
 }
 
 class UserRequestHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 
+<<<<<<< HEAD
 //Awesome stuffs done
 interface onUserRequestItemClicListener{
     fun onUserRequestItemClick(v : View, name: String, phoneNumber: String, eventLocation: String, eventType: String, email: String, serviceType: List<String>, id: String)
+=======
+interface OnUserRequestItemClicListener{
+    fun onUserRequestItemClick(v : View, name: String, phoneNumber: String, eventLocation: String, eventType: String, email: String,  id: String)
+}
+
+//To Detect when the delete button is clicked cleanly
+interface OnDeleteRequestButtonClickListener{
+    fun  onDeleteButtonClicked(id: String)
+>>>>>>> develop
 }

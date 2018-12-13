@@ -68,4 +68,11 @@ dependencies {
     //MultiDex Error Solving
     implementation 'com.android.support:multidex:1.0.3'
 
+    //Lifecycle
+    implementation "android.arch.lifecycle:extensions:1.1.0"
+    annotationProcessor "android.arch.lifecycle:compiler:1.1.0"
+
+    //Material Search View
+    implementation 'com.miguelcatalan:materialsearchview:1.4.0'
+
 }

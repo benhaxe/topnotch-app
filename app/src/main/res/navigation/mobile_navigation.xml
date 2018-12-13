@@ -40,7 +40,7 @@
         <action
             android:id="@+id/action_userRequestList_to_fullDetails"
             app:destination="@id/fullDetails"
-            app:enterAnim="@android:anim/fade_in"
+            app:enterAnim="@android:anim/slide_in_left"
             app:exitAnim="@android:anim/slide_out_right"
             app:popEnterAnim="@android:anim/fade_in"
             app:popExitAnim="@android:anim/fade_out" />

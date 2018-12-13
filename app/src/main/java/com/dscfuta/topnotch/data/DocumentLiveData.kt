@@ -22,19 +22,25 @@ class DocumentLiveData(val collectionReference: CollectionReference,
 
         collectionReference.addSnapshotListener{
             doc, exception ->
-            val list = mutableListOf<FullRequest>()
+            val added_list = mutableListOf<FullRequest>()
+            val removed_list = mutableListOf<FullRequest>()
                 if(doc != null){
                     for(document in doc.documentChanges) {
 
-                        //Checking if a document is added or removed
-                        if(document.type == DocumentChange.Type.ADDED || document.type == DocumentChange.Type.REMOVED){
+                        //Checking if a document is added
+                        //This should also be triggeref=d if a document is deleted. I hope
+
+                        if(document.type == DocumentChange.Type.ADDED){
                             val userRequest = document.document.toObject(UserRequest::class.java)
                             val id = document.document.id
 
-                            list.add(FullRequest(userRequest, id))
+                            added_list.add(FullRequest(userRequest, id))
+                            value = added_list
+
                         }
 
                 }
+
             }
 
             //Using said function with the message
@@ -43,7 +49,7 @@ class DocumentLiveData(val collectionReference: CollectionReference,
             }
 
             //The value to be observed
-            value = list
+
 
         }
     }
