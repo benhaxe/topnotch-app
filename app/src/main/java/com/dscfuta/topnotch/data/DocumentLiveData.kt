@@ -12,10 +12,6 @@ class DocumentLiveData(val collectionReference: CollectionReference,
                        //Function to be executed if something goes wrong
                        val body: (excepption: String) -> Unit): LiveData<List<FullRequest>>() {
 
-    override fun onInactive() {
-        super.onInactive()
-
-    }
 
     override fun onActive() {
         super.onActive()
@@ -23,34 +19,26 @@ class DocumentLiveData(val collectionReference: CollectionReference,
         collectionReference.addSnapshotListener{
             doc, exception ->
             val added_list = mutableListOf<FullRequest>()
-            val removed_list = mutableListOf<FullRequest>()
-                if(doc != null){
-                    for(document in doc.documentChanges) {
 
-                        //Checking if a document is added
-                        //This should also be triggeref=d if a document is deleted. I hope
+                if(doc != null && !doc.isEmpty){
+                    for(document in doc.documents){
+                        val userReuqests  = document.toObject(UserRequest::class.java)
+                        val id = document.id
 
-                        if(document.type == DocumentChange.Type.ADDED){
-                            val userRequest = document.document.toObject(UserRequest::class.java)
-                            val id = document.document.id
+                        if(userReuqests != null)added_list.add(FullRequest(userReuqests, id))
 
-                            added_list.add(FullRequest(userRequest, id))
-                            value = added_list
+                    }
 
-                        }
+                    value = added_list
 
                 }
-
-            }
 
             //Using said function with the message
             if (exception != null){
                 body(exception.localizedMessage)
+               }
+
             }
-
-            //The value to be observed
-
 
         }
     }
-}

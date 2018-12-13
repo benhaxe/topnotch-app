@@ -101,10 +101,8 @@ class UserRequestList : Fragment(), OnUserRequestItemClicListener, ReloadAdapter
 
         })
 
-        //Failed Swipe Mission :(
-
-//        ItemTouchHelper(RecyclerSwiper())
-//                .attachToRecyclerView(recyclerView)
+        ItemTouchHelper(RecyclerSwiper())
+                .attachToRecyclerView(recyclerView)
 
         //Reload button's retry function..
 
@@ -116,33 +114,33 @@ class UserRequestList : Fragment(), OnUserRequestItemClicListener, ReloadAdapter
 
 
     //That failed swipe mission's class
-//    inner class RecyclerSwiper : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT) {
-//        override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder): Boolean {
-//
-//            return false
-//        }
-//
-//        override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-//
-//            //When Swiped delete particular request through the id passed in to the itemView's tag
-//
-//            viewHolder.itemView.visibility = GONE
-//            viewModel.deleteRequest(viewHolder.itemView.tag.toString(), {
-//                Toast.makeText(context!!, "Request deleted successfully", Toast.LENGTH_LONG)
-//                        .show()
-//
-//
-//                adapter.notifyDataSetChanged()
-//            }, {
-//                Toast.makeText(context!!, "Error: $it", Toast.LENGTH_LONG)
-//                        .show()
-//            })
-//
-//            adapter.notifyDataSetChanged()
-//
-//        }
-//
-//    }
+    inner class RecyclerSwiper : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT) {
+        override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder): Boolean {
+
+            return false
+        }
+
+        override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+
+            //When Swiped delete particular request through the id passed in to the itemView's tag
+
+            viewHolder.itemView.visibility = GONE
+            viewModel.deleteRequest(viewHolder.itemView.tag.toString(), {
+                Toast.makeText(context!!, "Request deleted successfully", Toast.LENGTH_LONG)
+                        .show()
+
+
+                adapter.notifyDataSetChanged()
+            }, {
+                Toast.makeText(context!!, "Error: $it", Toast.LENGTH_LONG)
+                        .show()
+            })
+
+            adapter.notifyDataSetChanged()
+
+        }
+
+    }
 
      override fun reloadData(){
 

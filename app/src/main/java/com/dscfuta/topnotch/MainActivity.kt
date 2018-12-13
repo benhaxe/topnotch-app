@@ -1,5 +1,6 @@
 package com.dscfuta.topnotch
 
+import android.app.ProgressDialog
 import android.content.DialogInterface
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -32,14 +33,20 @@ class MainActivity : AppCompatActivity(), OnUserRequestItemClicListener, OnDelet
         dialog.setPositiveButton("YES") {
             dialog__, which ->
 
-                dialog.setMessage("Deleting...")
+            val dialog2 = ProgressDialog(this)
+            dialog2.setMessage("Deleting..")
+            dialog2.setCanceledOnTouchOutside(false)
+            dialog2.show()
+
+
             viewModel.deleteRequest(id, {
-                dialog__.dismiss()
-                userRequestList.reloadData()
+
+                dialog2.dismiss()
 
             }, {
-                dialog__.dismiss()
-                Toast.makeText(this, "Error: $it", Toast.LENGTH_LONG)
+                dialog2.dismiss()
+                Toast.makeText(this, "An error occurred. Please check your network connection and try again..",
+                        Toast.LENGTH_LONG)
                         .show()
             })
         }
