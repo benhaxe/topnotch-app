@@ -8,7 +8,7 @@ import com.google.firebase.firestore.Query
 /**
  * Created by Big-Nosed Developer on the Edge of Infinity.
  */
-class FireStoreRepo(val context: Context) {
+class FireStoreRepo() {
 
     private val fireStore = FirebaseFirestore.getInstance()
 
@@ -16,7 +16,7 @@ class FireStoreRepo(val context: Context) {
     fun getFireStoreInstance() = fireStore
 
     //Retrieves the the requests
-    fun getUserRequestCollection() = fireStore.collection(context.getString(R.string.users_request_path))
+    fun getUserRequestCollection() = fireStore.collection("Users Request")
 
     fun deleteRequest(path: String, ifSuccessful: () -> Unit, ifNotSuccessful: (exception: String) -> Unit){
         getUserRequestCollection().document(path).delete().addOnCompleteListener {
