@@ -10,20 +10,19 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
 import com.dscfuta.topnotch.R
 import com.dscfuta.topnotch.adapter.UserRequestAdapter
-import com.dscfuta.topnotch.adapter.OnUserRequestItemClicListener
+import com.dscfuta.topnotch.adapter.OnUserRequestItemClickListener
 import com.dscfuta.topnotch.data.RequestsViewModel
 import com.dscfuta.topnotch.databinding.FragmentUserRequestListBinding
 import com.dscfuta.topnotch.model.FullRequest
 
 
-class UserRequestList : Fragment(), OnUserRequestItemClicListener {
+class UserRequestList : Fragment(), OnUserRequestItemClickListener {
     override fun onUserRequestItemClick(v: View,
                                         name: String,
                                         phoneNumber: String,
@@ -33,10 +32,16 @@ class UserRequestList : Fragment(), OnUserRequestItemClicListener {
                                         id: String /* The Id to be used in retrieving the document in the fullDetailsFragment*/
     ) {
 
-        //Implementing the androidx navigation component -- Passing a load of parameters here
         //Todo: The service type list should be retrieved in the fullDetailsFragment with the id from the fireStore Database..
         Navigation.findNavController(v)
-                .navigate(UserRequestListDirections.actionUserRequestListToFullDetails(name, phoneNumber, eventLocation, eventType, email, id))
+                .navigate(UserRequestListDirections.actionUserRequestListToFullDetails(
+                        name,
+                        phoneNumber,
+                        eventLocation,
+                        eventType,
+                        email,
+                        id)
+                )
     }
 
 
@@ -53,10 +58,12 @@ class UserRequestList : Fragment(), OnUserRequestItemClicListener {
         viewModel = ViewModelProviders.of(this).get(RequestsViewModel::class.java)
         setHasOptionsMenu(true)
 
-        //Initializing
-
         recyclerView = binding.itemUserFragRecyclerview
         val manager = LinearLayoutManager(context)
+
+        /**
+         * [apply]Calls the specified function [block] with `this` value as its receiver and returns `this` value.
+         */
         recyclerView.apply {
             setHasFixedSize(true)
             layoutManager = manager
@@ -73,33 +80,26 @@ class UserRequestList : Fragment(), OnUserRequestItemClicListener {
 
         //Observing..
         requestsLiveData.observe(this, Observer<List<FullRequest>>{
-
             originalUserRequestList = it
 
+            //CHeck if the List is empty
             if(it.isEmpty()){
-
                 //Enables No request yet placeholder
                 binding.noRequestsLayout.visibility = VISIBLE
                 binding.progressItemUserFrag.visibility = GONE
-
-
             }else{
-
                 //Displays Requests
-                 adapter = UserRequestAdapter(it, this@UserRequestList.activity!!)
+                adapter = UserRequestAdapter(it, this@UserRequestList.activity!!)
                 adapter.notifyDataSetChanged()
 
+                //Set the adapter if it is not Empty
                 recyclerView.adapter = adapter
                 binding.progressItemUserFrag.visibility = GONE
-
             }
-
         })
 
         //Sets up swipe to delete
-        ItemTouchHelper(RecyclerSwiper())
-                .attachToRecyclerView(recyclerView)
-
+        ItemTouchHelper(RecyclerSwiper()).attachToRecyclerView(recyclerView)
 
         return binding.root
 
@@ -115,6 +115,7 @@ class UserRequestList : Fragment(), OnUserRequestItemClicListener {
         override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
 
             //When Swiped delete particular request through the id passed in to the itemView's tag
+            //We pass in the path here
             viewModel.deleteRequest(viewHolder.itemView.tag.toString(), {
                 Toast.makeText(context!!, "Request deleted successfully", Toast.LENGTH_LONG)
                         .show()

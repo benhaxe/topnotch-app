@@ -1,120 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <androidx.cardview.widget.CardView
+    <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         app:cardCornerRadius="5dp"
         android:layout_margin="5dp"
+        app:cardElevation="4dp"
         android:layout_height="wrap_content">
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="3dp"
             android:orientation="vertical">
 
-            <LinearLayout
-                android:layout_width="match_parent"
+
+            <TextView
+                android:id="@+id/item_user_request_label"
+                style="@style/user_label"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp"
+                android:text="B" />
+
+            <TextView
+                android:id="@+id/item_user_request_user_name"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:layout_marginTop="8dp"
+                android:padding="8dp"
+                android:layout_toRightOf="@id/item_user_request_label"
+                android:gravity="start"
+                android:text="Benjamin Masebinu"
+                android:textColor="@android:color/black"
+                android:textSize="18sp" />
 
-                <TextView
-                    android:id="@+id/item_user_request_label"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginTop="7dp"
-                    android:layout_marginEnd="10dp"
-                    android:layout_marginRight="10dp"
-                    android:layout_marginBottom="5dp"
-                    android:background="@drawable/text_label_background_a"
-                    android:gravity="center"
-                    android:paddingStart="12dp"
-                    android:paddingTop="5dp"
-                    android:paddingEnd="12dp"
-                    android:paddingBottom="5dp"
-                    android:text=""
-                    android:textColor="@android:color/white"
-                    android:textSize="20sp" />
-
-                <TextView
-                    android:id="@+id/item_user_request_user_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginStart="5dp"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginEnd="20dp"
-                    android:layout_marginRight="20dp"
-                    android:gravity="start"
-                    android:text=""
-                    android:textColor="@android:color/black"
-                    android:textSize="18sp" />
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_margin="5dp">
-
-                    <ImageButton
-                        android:layout_width="35dp"
-                        android:layout_alignParentEnd="true"
-                        android:paddingTop="3dp"
-                        android:paddingBottom="3dp"
-                        android:id="@+id/deleteRequestButton"
-                        android:layout_marginRight="5dp"
-                        android:layout_marginEnd="5dp"
-                        android:layout_centerVertical="true"
-                        android:layout_alignParentRight="true"
-                        android:tint="@color/colorAccent"
-                        android:background="@drawable/delete_btn_selector"
-                        app:srcCompat="@drawable/ic_delete"
-                        android:layout_height="35dp" />
-
-                </RelativeLayout>
-
-
-            </LinearLayout>
-
-            <View
-                android:layout_width="match_parent"
+            <include
+                android:id="@+id/vertical_divider"
+                android:layout_below="@+id/item_user_request_label"
+                layout="@layout/include_divider"
                 android:layout_height="1dp"
-                android:layout_marginStart="65dp"
-                android:layout_marginLeft="65dp"
-                android:layout_marginEnd="5dp"
-                android:layout_marginRight="5dp"
-                android:background="@android:color/darker_gray" />
+                android:layout_width="match_parent"/>
 
-            <LinearLayout
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/item_user_request_event_types_recycler"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="3dp"
-                android:layout_marginBottom="3dp"
-                android:orientation="horizontal">
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/item_user_request_event_types_recycler"
-                    android:layout_width="match_parent"
-                    android:layout_height="70dp"
-                    android:layout_marginStart="65dp"
-                    android:layout_marginLeft="65dp"
-                    android:layout_marginBottom="2dp"
-                    android:layout_marginEnd="5dp"
-                    android:layout_marginRight="5dp" />
-
-
-            </LinearLayout>
-
-
-        </LinearLayout>
-
-    </androidx.cardview.widget.CardView>
-
-
-
+                android:layout_height="70dp"
+                android:layout_below="@+id/vertical_divider"
+                android:layout_margin="8dp"
+                tools:listitem="@layout/sevice_type_layout"/>
+        </RelativeLayout>
+    </com.google.android.material.card.MaterialCardView>
 </layout>

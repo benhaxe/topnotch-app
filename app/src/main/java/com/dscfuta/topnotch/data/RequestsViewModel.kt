@@ -12,7 +12,13 @@ class RequestsViewModel: ViewModel() {
 
     fun getRequests(body : (exception: String) -> Unit) = DocumentLiveData(requestsCollection, body)
 
-    fun deleteRequest(path: String, if_successful : () -> Unit, if_not_successful: (exception: String) -> Unit)
-            = fireStoreRepo.deleteRequest(path = path, ifNotSuccessful = if_not_successful, ifSuccessful = if_successful)
+    fun deleteRequest(
+            path: String,
+            if_successful : () -> Unit,
+            if_not_successful: (exception: String) -> Unit) = fireStoreRepo.deleteRequest(
+            path = path,
+            ifNotSuccessful = if_not_successful,
+            ifSuccessful = if_successful
+    )
 
 }

@@ -41,11 +41,11 @@ class UserRequestAdapter(
         val serviceTypeList = userRequestList[position].userRequest.service_type
         val adapter = ServiceTypeAdapter(serviceTypeList, context)
 
-        //Still Initializing
+        //Initializing a staggered grid view
         val manager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.HORIZONTAL)
         manager.gapStrategy = StaggeredGridLayoutManager.GAP_HANDLING_NONE
 
-        //In case if user types in their name in lowercase
+        //Make Label
         val labelText = userRequestList[position].userRequest.name[0].toString().toUpperCase()
 
         //Setting data to the respective views
@@ -53,6 +53,7 @@ class UserRequestAdapter(
         binding.itemUserRequestEventTypesRecycler.layoutManager = manager
         binding.itemUserRequestEventTypesRecycler.adapter = adapter
 
+        /**Handling a very long name*/
         binding.apply {
             if(userRequestList[position].userRequest.name.length < 30){
                 itemUserRequestUserName.text = userRequestList[position].userRequest.name
@@ -60,15 +61,14 @@ class UserRequestAdapter(
                 val shortenedName = userRequestList[position].userRequest.name.substring(0, 30) + "..."
                 itemUserRequestUserName.text = shortenedName
             }
-
-
+            /**Making the label work with style*/
             itemUserRequestLabel.text = labelText
             itemUserRequestLabel.backgroundDrawable = Utils.setDrawableFromText(labelText, context)
         }
 
         val id = userRequestList[position].id
 
-        //Delete Button Function
+        /*//Delete Button Function
         binding.deleteRequestButton.setOnClickListener {
 
         try{
@@ -83,12 +83,11 @@ class UserRequestAdapter(
                 Log.e(UserRequestAdapter::class.java.simpleName, "Exception: Fragment/Activity class must implement OnUserRequestItemClickListener")
 
             }
-        }
+        }*/
 
 
-        //Breaking down each userRequest for fragment passing
+        //Breaking down each userRequest for fragment parsing
         val currentUserRequest =  userRequestList[position].userRequest
-
 
         val name = currentUserRequest.name
         val emailAddress = currentUserRequest.email
@@ -103,16 +102,22 @@ class UserRequestAdapter(
         holder.itemView.setOnClickListener {
 
             try{
-                val clickListener  = context as OnUserRequestItemClicListener
+                val clickListener  = context as OnUserRequestItemClickListener
 
                 //Used named arguments to make the parameter passed clearer
-                clickListener.onUserRequestItemClick(it, name = name, phoneNumber = phoneNumber, eventLocation = eventLocation, eventType = eventType,
-                        email = emailAddress,  id = id
+                clickListener.onUserRequestItemClick(
+                        it,
+                        name = name,
+                        phoneNumber = phoneNumber,
+                        eventLocation = eventLocation,
+                        eventType = eventType,
+                        email = emailAddress,
+                        id = id
                 )
 
             }catch (e: Exception){
                 //Just to be safe
-                Toast.makeText(context, "Exception: Fragment/Activity class must implement OnUserRequestItemClickListener", Toast.LENGTH_LONG)
+                Toast.makeText(context, e.message, Toast.LENGTH_LONG)
                         .show()
                 Log.e(UserRequestAdapter::class.java.simpleName, "Exception: Fragment/Activity class must implement OnUserRequestItemClickListener")
 
@@ -125,17 +130,18 @@ class UserRequestAdapter(
 
 class UserRequestHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 
-<<<<<<< HEAD
-//Awesome stuffs done
-interface onUserRequestItemClicListener{
-    fun onUserRequestItemClick(v : View, name: String, phoneNumber: String, eventLocation: String, eventType: String, email: String, serviceType: List<String>, id: String)
-=======
-interface OnUserRequestItemClicListener{
-    fun onUserRequestItemClick(v : View, name: String, phoneNumber: String, eventLocation: String, eventType: String, email: String,  id: String)
+interface OnUserRequestItemClickListener{
+    fun onUserRequestItemClick(
+            v : View,
+            name: String,
+            phoneNumber: String,
+            eventLocation: String,
+            eventType: String,
+            email: String,
+            id: String)
 }
 
 //To Detect when the delete button is clicked cleanly
 interface OnDeleteRequestButtonClickListener{
     fun  onDeleteButtonClicked(id: String)
->>>>>>> develop
 }

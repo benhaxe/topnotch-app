@@ -1,12 +1,9 @@
 package com.dscfuta.topnotch
 
 import android.app.ProgressDialog
-import android.content.DialogInterface
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.Gravity
 import android.view.Menu
-import android.view.MenuInflater
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
@@ -14,13 +11,12 @@ import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation
 import com.dscfuta.topnotch.adapter.OnDeleteRequestButtonClickListener
-import com.dscfuta.topnotch.adapter.OnUserRequestItemClicListener
+import com.dscfuta.topnotch.adapter.OnUserRequestItemClickListener
 import com.dscfuta.topnotch.data.RequestsViewModel
-import com.dscfuta.topnotch.ui.UserRequestList
 import com.dscfuta.topnotch.ui.UserRequestListDirections
 import com.miguelcatalan.materialsearchview.MaterialSearchView
 
-class MainActivity : AppCompatActivity(), OnUserRequestItemClicListener, OnDeleteRequestButtonClickListener {
+class MainActivity : AppCompatActivity(), OnUserRequestItemClickListener, OnDeleteRequestButtonClickListener {
 
     private lateinit var viewModel: RequestsViewModel
     lateinit var searchView: MaterialSearchView

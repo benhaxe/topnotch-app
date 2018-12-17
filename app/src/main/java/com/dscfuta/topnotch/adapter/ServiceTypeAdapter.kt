@@ -11,7 +11,10 @@ import com.dscfuta.topnotch.R
 /**
  * Created by Big-Nosed Developer on the Edge of Infinity.
  */
-class ServiceTypeAdapter(val serviceTypeList: List<String>, val context: Context): RecyclerView.Adapter<ServiceTypeAdapter.ServiceViewHolder>() {
+class ServiceTypeAdapter(
+        val serviceTypeList: List<String>,
+        val context: Context
+): RecyclerView.Adapter<ServiceTypeAdapter.ServiceViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ServiceViewHolder {
         val view = LayoutInflater.from(context).inflate(R.layout.sevice_type_layout, parent, false)
