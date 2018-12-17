@@ -12,4 +12,6 @@
     <string name="sms">SMS</string>
     <string name="mail">Mail</string>
     <string name="whatsapp">Whatsapp</string>
+
+    <string name="dsc_channel">DSC Channel</string>
 </resources>
