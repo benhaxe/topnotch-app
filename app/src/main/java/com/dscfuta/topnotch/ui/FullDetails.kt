@@ -1,24 +1,21 @@
 package com.dscfuta.topnotch.ui
 
 
-import android.content.ContentValues.TAG
+import android.content.Context
 import android.content.Intent
-import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.Toast
 import android.widget.Toast.makeText
 import androidx.databinding.DataBindingUtil
-
+import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.dscfuta.topnotch.R
+import com.dscfuta.topnotch.adapter.ServiceTypeAdapter
 import com.dscfuta.topnotch.databinding.FragmentFullDetailsBinding
-import kotlinx.android.synthetic.main.fragment_full_details.*
+import net.alexandroid.shpref.ShPref
 
 
 class FullDetails : Fragment(), View.OnClickListener {
@@ -33,10 +30,17 @@ class FullDetails : Fragment(), View.OnClickListener {
     lateinit var eventLocation : String
     lateinit var message : String
 
+    //For Adapter
+    lateinit var adapter : ServiceTypeAdapter
+    lateinit var myList : List<String>
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_full_details, container, false)
+
+        getServiceType(this.context)
+        setHasOptionsMenu(true)
 
         return binding.root
     }
@@ -57,6 +61,7 @@ class FullDetails : Fragment(), View.OnClickListener {
             tvUserMail.text = email
             tvEventType.text = eventType
             tvEventLocation.text = eventLocation
+            tvEventDate.text = safeArgs.eventDate
         }
 
         binding.apply {
@@ -135,5 +140,32 @@ class FullDetails : Fragment(), View.OnClickListener {
             R.id.action_icon_mail -> sendAMail(email)
             R.id.action_icon_whatsapp -> chatOnWhatsApp(phone)
         }
+    }
+
+    private fun getServiceType(context: Context?){
+        myList = ShPref.getListOfStrings("service_type")
+
+        adapter = ServiceTypeAdapter(myList, context!!)
+
+        val manager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.HORIZONTAL)
+        manager.gapStrategy = StaggeredGridLayoutManager.GAP_HANDLING_NONE
+
+        binding.rvServiceType.setHasFixedSize(true)
+        binding.rvServiceType.layoutManager = manager
+        binding.rvServiceType.adapter = adapter
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
+        /*super.onCreateOptionsMenu(menu, inflater)*/
+        menu!!.clear()
+        inflater!!.inflate(R.menu.full_details_menu, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        val id = item!!.itemId
+        when(id){
+            R.id.menu_action_delete -> makeText(context, "Delete CLicked", Toast.LENGTH_LONG).show()
+        }
+        return super.onOptionsItemSelected(item)
     }
 }

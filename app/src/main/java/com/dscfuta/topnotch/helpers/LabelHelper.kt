@@ -1,16 +1,14 @@
-package com.dscfuta.topnotch
+package com.dscfuta.topnotch.helpers
 
 import android.content.Context
 import android.graphics.drawable.Drawable
-import android.view.View
-import android.widget.TextView
 import androidx.core.content.ContextCompat
-import com.google.android.material.snackbar.Snackbar
+import com.dscfuta.topnotch.R
 
 /**
  * Created by Big-Nosed Developer on the Edge of Infinity.
  */
-class Utils {
+class LabelHelper {
 
     companion object {
 

@@ -8,10 +8,10 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.dscfuta.topnotch.R
-import com.dscfuta.topnotch.Utils
+import com.dscfuta.topnotch.helpers.LabelHelper
 import com.dscfuta.topnotch.databinding.ItemUserRequestBinding
+import com.dscfuta.topnotch.helpers.OnUserRequestItemClickListener
 import com.dscfuta.topnotch.model.FullRequest
 import org.jetbrains.anko.backgroundDrawable
 
@@ -37,21 +37,12 @@ class UserRequestAdapter(
         //Storing the id of the request to be deleted..
         holder.itemView.tag = userRequestList[position].id
 
-        //Initializing the adapter of the service type
+        /*//Initializing the adapter of the service type
         val serviceTypeList = userRequestList[position].userRequest.service_type
-        val adapter = ServiceTypeAdapter(serviceTypeList, context)
-
-        //Initializing a staggered grid view
-        val manager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.HORIZONTAL)
-        manager.gapStrategy = StaggeredGridLayoutManager.GAP_HANDLING_NONE
+        Log.d(TAG, "My Service type: $serviceTypeList")*/
 
         //Make Label
         val labelText = userRequestList[position].userRequest.name[0].toString().toUpperCase()
-
-        //Setting data to the respective views
-        binding.itemUserRequestEventTypesRecycler.setHasFixedSize(true)
-        binding.itemUserRequestEventTypesRecycler.layoutManager = manager
-        binding.itemUserRequestEventTypesRecycler.adapter = adapter
 
         /**Handling a very long name*/
         binding.apply {
@@ -63,7 +54,9 @@ class UserRequestAdapter(
             }
             /**Making the label work with style*/
             itemUserRequestLabel.text = labelText
-            itemUserRequestLabel.backgroundDrawable = Utils.setDrawableFromText(labelText, context)
+            itemUserRequestLabel.backgroundDrawable = LabelHelper.setDrawableFromText(labelText, context)
+
+            itemUserRequestEventDate.text = userRequestList[position].userRequest.event_date
         }
 
         val id = userRequestList[position].id
@@ -94,13 +87,11 @@ class UserRequestAdapter(
         val eventLocation = currentUserRequest.event_location
         val phoneNumber = currentUserRequest.phone
         val eventType = currentUserRequest.event_type
-
-        //No use for serviceType yet
+        val eventDate = currentUserRequest.event_date
         val serviceType = currentUserRequest.service_type
 
         //Registering the listener
         holder.itemView.setOnClickListener {
-
             try{
                 val clickListener  = context as OnUserRequestItemClickListener
 
@@ -112,6 +103,8 @@ class UserRequestAdapter(
                         eventLocation = eventLocation,
                         eventType = eventType,
                         email = emailAddress,
+                        eventDate = eventDate,
+                        mService = serviceType,
                         id = id
                 )
 
@@ -129,19 +122,3 @@ class UserRequestAdapter(
 }
 
 class UserRequestHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
-
-interface OnUserRequestItemClickListener{
-    fun onUserRequestItemClick(
-            v : View,
-            name: String,
-            phoneNumber: String,
-            eventLocation: String,
-            eventType: String,
-            email: String,
-            id: String)
-}
-
-//To Detect when the delete button is clicked cleanly
-interface OnDeleteRequestButtonClickListener{
-    fun  onDeleteButtonClicked(id: String)
-}

@@ -1,50 +1,35 @@
 package com.dscfuta.topnotch.ui
 
 
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.graphics.Canvas
+import android.graphics.Paint
 import android.os.Bundle
-import android.view.*
+import android.util.DisplayMetrics
+import android.view.LayoutInflater
+import android.view.View
 import android.view.View.*
-import androidx.fragment.app.Fragment
+import android.view.ViewGroup
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import androidx.navigation.Navigation
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-
 import com.dscfuta.topnotch.R
 import com.dscfuta.topnotch.adapter.UserRequestAdapter
-import com.dscfuta.topnotch.adapter.OnUserRequestItemClickListener
 import com.dscfuta.topnotch.data.RequestsViewModel
 import com.dscfuta.topnotch.databinding.FragmentUserRequestListBinding
 import com.dscfuta.topnotch.model.FullRequest
+import android.graphics.drawable.BitmapDrawable
+import android.graphics.drawable.Drawable
+import com.dscfuta.topnotch.helpers.drawableToBitmap
 
 
-class UserRequestList : Fragment(), OnUserRequestItemClickListener {
-    override fun onUserRequestItemClick(v: View,
-                                        name: String,
-                                        phoneNumber: String,
-                                        eventLocation: String,
-                                        eventType: String,
-                                        email: String,
-                                        id: String /* The Id to be used in retrieving the document in the fullDetailsFragment*/
-    ) {
-
-        //Todo: The service type list should be retrieved in the fullDetailsFragment with the id from the fireStore Database..
-        Navigation.findNavController(v)
-                .navigate(UserRequestListDirections.actionUserRequestListToFullDetails(
-                        name,
-                        phoneNumber,
-                        eventLocation,
-                        eventType,
-                        email,
-                        id)
-                )
-    }
-
-
+class UserRequestList : Fragment(){
     lateinit var binding: FragmentUserRequestListBinding
     lateinit var adapter: UserRequestAdapter
     lateinit var viewModel: RequestsViewModel
@@ -56,6 +41,7 @@ class UserRequestList : Fragment(), OnUserRequestItemClickListener {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_user_request_list, container, false)
         viewModel = ViewModelProviders.of(this).get(RequestsViewModel::class.java)
+
         setHasOptionsMenu(true)
 
         recyclerView = binding.itemUserFragRecyclerview
@@ -131,8 +117,51 @@ class UserRequestList : Fragment(), OnUserRequestItemClickListener {
             adapter.notifyDataSetChanged()
 
         }
+
+        override fun onChildDraw(c: Canvas, recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, dX: Float, dY: Float, actionState: Int, isCurrentlyActive: Boolean) {
+            if(actionState == ItemTouchHelper.ACTION_STATE_SWIPE){
+                //Get recyclerView item from the viewHolder
+
+                val itemView = viewHolder.itemView
+
+                val paint = Paint()
+                val icon : Bitmap
+
+                if (dX > 0){
+                    //For Left to Right swiping
+                    icon = drawableToBitmap(drawable = resources.getDrawable(R.drawable.ic_delete))
+                    paint.setARGB(255, 255, 0, 0)
+
+                    c.drawRect(itemView.left.toFloat(), itemView.top.toFloat(), dX, itemView.bottom.toFloat(), paint)
+                    c.drawBitmap(
+                            icon,
+                            itemView.left.toFloat() + convertDpToPx(16),
+                            itemView.top.toFloat() + (itemView.bottom.toFloat() - itemView.top - icon.height) / 2,paint)
+                }else{
+                    //For Right to Left swiping
+                    icon = drawableToBitmap(drawable = resources.getDrawable(R.drawable.ic_delete))
+                    paint.setARGB(255, 255, 0, 0)
+
+                    c.drawRect(
+                            itemView.right.toFloat() + dX, itemView.top.toFloat(), itemView.right.toFloat(), itemView.bottom.toFloat(), paint)
+                    c.drawBitmap(
+                            icon,
+                            itemView.right.toFloat() - convertDpToPx(16) - icon.width,
+                            itemView.top.toFloat() + (itemView.bottom.toFloat() - itemView.top - icon.height) / 2,paint)
+                }
+
+                val alpha = 1.0f - Math.abs(dX) / viewHolder.itemView.width.toFloat()
+                viewHolder.itemView.alpha = alpha
+                viewHolder.itemView.translationX = dX
+            }else{
+                super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
+            }
+        }
     }
 
+    private fun convertDpToPx(dp : Int) : Int{
+        return  Math.round(dp * (resources).displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT)
+    }
 
 
     //Function that is supposed to refill the adapter as new text is typed into the search view..

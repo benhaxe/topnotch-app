@@ -3,15 +3,20 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="users_request_path">User Request</string>
+    <string name="users_request_path">Users Request</string>
     <string name="event_type">Event Type:</string>
     <string name="no_requests_message">Sorry, no requests for now…</string>
     <string name="reload">RELOAD</string>
-    <string name="search">Search</string>
+    <string name="search">Search requests…</string>
     <string name="calls">Calls</string>
     <string name="sms">SMS</string>
     <string name="mail">Mail</string>
     <string name="whatsapp">Whatsapp</string>
 
     <string name="dsc_channel">DSC Channel</string>
+
+    <string name="fcm_name">Name</string>
+    <string name="fcm_description">Description</string>
+    <string name="SENDER_ID">331178327824</string>
+    <string name="delete">Delete</string>
 </resources>

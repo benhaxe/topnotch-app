@@ -9,13 +9,8 @@
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/toolbar_container"
-            >
+        android:layout_height="wrap_content"
+        android:id="@+id/toolbar_container">
 
             <androidx.appcompat.widget.Toolbar
                 android:layout_width="match_parent"
@@ -24,14 +19,12 @@
                 app:titleTextColor="@android:color/white"
                 android:layout_height="?attr/actionBarSize" />
 
-            <com.miguelcatalan.materialsearchview.MaterialSearchView
+            <!--<com.miguelcatalan.materialsearchview.MaterialSearchView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:visibility="visible"
                 android:id="@+id/searchView"
-                />
-
-        </FrameLayout>
+                />-->
 
     </com.google.android.material.appbar.AppBarLayout>
 

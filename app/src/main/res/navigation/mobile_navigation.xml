@@ -28,6 +28,9 @@
             android:name="email"
             app:argType="string" />
         <argument
+            android:name="eventDate"
+            app:argType="string" />
+        <argument
             android:name="id"
             app:argType="string" />
     </fragment>

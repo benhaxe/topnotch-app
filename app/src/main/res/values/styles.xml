@@ -31,7 +31,7 @@
         <item name="android:gravity">center</item>
         <item name="android:textColor">@android:color/white</item>
         <item name="android:textSize">20sp</item>
-        <item name="android:layout_margin">8dp</item>
+        <item name="android:layout_margin">4dp</item>
         <item name="android:background">@drawable/text_label_background_a</item>
         <item name="android:textStyle">bold</item>
         <item name="android:paddingTop">5dp</item>
