@@ -2,6 +2,7 @@ package com.dscfuta.topnotch
 
 import android.app.ProgressDialog
 import android.content.ContentValues
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
@@ -9,6 +10,7 @@ import android.view.View
 import android.widget.SearchView
 import android.widget.Toast
 import android.widget.Toast.makeText
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -18,14 +20,14 @@ import androidx.navigation.Navigation
 import com.dscfuta.topnotch.data.RequestsViewModel
 import com.dscfuta.topnotch.helpers.OnDeleteRequestButtonClickListener
 import com.dscfuta.topnotch.helpers.OnUserRequestItemClickListener
+import com.dscfuta.topnotch.helpers.SearchQueryEvent
 import com.dscfuta.topnotch.ui.UserRequestListDirections
 import com.google.firebase.iid.FirebaseInstanceId
-import com.miguelcatalan.materialsearchview.MaterialSearchView
 import net.alexandroid.shpref.ShPref
-import org.jetbrains.anko.searchManager
+import org.greenrobot.eventbus.EventBus
 import java.io.IOException
 
-class MainActivity : AppCompatActivity(), OnUserRequestItemClickListener, OnDeleteRequestButtonClickListener {
+class MainActivity : AppCompatActivity(), OnUserRequestItemClickListener, OnDeleteRequestButtonClickListener, SearchView.OnQueryTextListener {
 
     private lateinit var viewModel: RequestsViewModel
 
@@ -35,63 +37,32 @@ class MainActivity : AppCompatActivity(), OnUserRequestItemClickListener, OnDele
         initView()
 
         viewModel = ViewModelProviders.of(this).get(RequestsViewModel::class.java)
-        /*searchView = findViewById(R.id.searchView)
-        searchView.showSuggestions()*/
 
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
     }
-
-        /*searchView.setOnQueryTextListener(object : MaterialSearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String?): Boolean {
-                //TODO: For every new query submitted in the search view.. The recycler view should be refilled
-                return true
-            }
-
-            override fun onQueryTextChange(newText: String?): Boolean {
-
-                if(!newText.isNullOrEmpty()){
-                    //TODO: For every new query put in the search view.. The recycler view should be refilled
-                }
-
-                return true
-            }
-
-        })
-
-        searchView.setOnSearchViewListener(object : MaterialSearchView.SearchViewListener{
-            override fun onSearchViewClosed() {
-                //TODO: When the search view is closed, the recycler view should return to normal
-            }
-
-            override fun onSearchViewShown() {
-
-            }
-
-        })
-
-
-    }*/
-
+    @RequiresApi(Build.VERSION_CODES.HONEYCOMB)
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.main_menu, menu!!)
 
         val searchItem = menu.findItem(R.id.main_menu_search)
 
-        var searchView : SearchView? = null
+        val searchView : SearchView = MenuItemCompat.getActionView(searchItem) as SearchView
+        searchView.queryHint= "Search Requests..."
+        searchView.isIconified = false
+        searchView.setOnQueryTextListener(this)
 
-        if (searchItem != null){
-            searchView = searchItem.actionView as SearchView?
-        }
-        searchView?.setSearchableInfo(searchManager.getSearchableInfo(this.componentName))
-        return super.onCreateOptionsMenu(menu)
+        return true
     }
 
-    /*override fun onBackPressed() {
-        super.onBackPressed()
+    override fun onQueryTextSubmit(query: String?): Boolean {
+        return false
+    }
 
-        if(searchView.isSearchOpen)searchView.closeSearch()
-    }*/
+    override fun onQueryTextChange(newText: String): Boolean {
+        EventBus.getDefault().post(SearchQueryEvent(newText))
+        return false
+    }
 
     private fun initView(){
         //Used to fetch token

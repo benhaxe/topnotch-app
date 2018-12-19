@@ -26,7 +26,11 @@ import com.dscfuta.topnotch.databinding.FragmentUserRequestListBinding
 import com.dscfuta.topnotch.model.FullRequest
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
+import com.dscfuta.topnotch.helpers.SearchQueryEvent
 import com.dscfuta.topnotch.helpers.drawableToBitmap
+import org.greenrobot.eventbus.EventBus
+import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
 
 
 class UserRequestList : Fragment(){
@@ -163,6 +167,21 @@ class UserRequestList : Fragment(){
         return  Math.round(dp * (resources).displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT)
     }
 
+    override fun onResume() {
+        super.onResume()
+        EventBus.getDefault().register(this)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        EventBus.getDefault().unregister(this)
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun onSearchQuery(event: SearchQueryEvent) {
+    val query = event.findQuery()
+    /*adapter.getFilter().filter(query);*/
+}
 
     //Function that is supposed to refill the adapter as new text is typed into the search view..
 //    fun onQueryTextSubmit( newText: String){

@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <searchable xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:label="@string/app_name"
-    android:hint="@string/search_hint" >
+    android:queryHint="@string/search_bar"
+    app:queryHint="@string/search"
+    app:defaultQueryHint="@string/search"
+    android:voiceSearchMode="showVoiceSearchButton|launchRecognizer">
 </searchable>

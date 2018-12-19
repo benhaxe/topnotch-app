@@ -82,4 +82,7 @@ dependencies {
     //Shared Preference
     api 'net.alexandroid.utils:shpref:1.6'
 
+    //Event Bus
+    api 'org.greenrobot:eventbus:3.1.1'
+
 }
