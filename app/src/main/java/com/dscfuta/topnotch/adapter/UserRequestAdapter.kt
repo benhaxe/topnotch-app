@@ -16,7 +16,7 @@ import com.dscfuta.topnotch.model.FullRequest
 import org.jetbrains.anko.backgroundDrawable
 
 class UserRequestAdapter(
-        private val userRequestList: List<FullRequest>,
+        private var userRequestList: List<FullRequest>,
          val context : Context) : RecyclerView.Adapter<UserRequestHolder>() {
 
     //Initializing
@@ -118,6 +118,13 @@ class UserRequestAdapter(
 
 
         }
+    }
+
+    // Filter for search view
+    fun setFilter(newList: ArrayList<FullRequest>) {
+        userRequestList = ArrayList()
+        (userRequestList as ArrayList<FullRequest>).addAll(newList)
+        notifyDataSetChanged()
     }
 }
 

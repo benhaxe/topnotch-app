@@ -28,7 +28,6 @@ import java.io.IOException
 class MainActivity : AppCompatActivity(), OnUserRequestItemClickListener, OnDeleteRequestButtonClickListener {
 
     private lateinit var viewModel: RequestsViewModel
-    lateinit var searchView: MaterialSearchView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
