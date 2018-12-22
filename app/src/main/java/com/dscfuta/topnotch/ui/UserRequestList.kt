@@ -26,9 +26,11 @@ import com.dscfuta.topnotch.databinding.FragmentUserRequestListBinding
 import com.dscfuta.topnotch.model.FullRequest
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
+import android.os.Build
 import android.util.Log
 import android.view.*
 import android.widget.SearchView
+import androidx.annotation.RequiresApi
 import androidx.core.view.MenuItemCompat
 import com.dscfuta.topnotch.MainActivity
 import com.dscfuta.topnotch.helpers.SearchQueryEvent
@@ -177,27 +179,12 @@ class UserRequestList : Fragment(), SearchView.OnQueryTextListener{
         return  Math.round(dp * (resources).displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT)
     }
 
-    /*override fun onResume() {
-        super.onResume()
-        EventBus.getDefault().register(this)
-    }
-
-    override fun onPause() {
-        super.onPause()
-        *//*EventBus.getDefault().unregister(this)*//*
-    }
-
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    fun onSearchQuery(event: SearchQueryEvent) {
-    val query = event.findQuery()
-    *//*adapter.getFilter().filter(query);*//*
-    }*/
-
+    @RequiresApi(Build.VERSION_CODES.HONEYCOMB)
     override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
         inflater!!.inflate(R.menu.main_menu, menu!!)
         val searchItem = menu.findItem(R.id.main_menu_search)
 
-        var searchManager : SearchManager= activity!!.getSystemService(Context.SEARCH_SERVICE) as SearchManager
+        val searchManager : SearchManager= activity!!.getSystemService(Context.SEARCH_SERVICE) as SearchManager
 
         if(searchItem != null){
             searchView = searchItem.actionView as SearchView
@@ -205,13 +192,8 @@ class UserRequestList : Fragment(), SearchView.OnQueryTextListener{
         searchView.setSearchableInfo(searchManager.getSearchableInfo(activity!!.componentName))
 
         searchView.setOnQueryTextListener(this)
-
-        /*var searchView = SearchView((context, activity.actionBar)
         searchView.queryHint= "Search Requests..."
         searchView.isIconified = false
-        searchView.setOnQueryTextListener(SearchView.OnQueryTextListener{
-
-        })*/
 
         super.onCreateOptionsMenu(menu, inflater)
     }
@@ -229,35 +211,17 @@ class UserRequestList : Fragment(), SearchView.OnQueryTextListener{
         Log.i(TAG, "onQueryTextChange + $newText")
         val myT = newText!!.toLowerCase()
 
-        val newList = ArrayList<FullRequest>()
+        val searchedRequestList: MutableList<FullRequest> = mutableListOf()
 
         for ( userRequest in originalUserRequestList){
             val name = userRequest.userRequest.name.toLowerCase()
 
-            if(name.startsWith(myT)){
-                newList.add(userRequest)
+            if(name.contains(myT)){
+                searchedRequestList.add(userRequest)
             }
-            adapter.setFilter(newList)
+            adapter = UserRequestAdapter(searchedRequestList, context!!)
+            recyclerView.adapter = adapter
         }
         return true
     }
-    //Function that is supposed to refill the adapter as new text is typed into the search view..
-//    fun onQueryTextSubmit( newText: String){
-//
-//        val searchedRequestList: MutableList<FullRequest> = mutableListOf()
-//        for (request in returnNewList()){
-//            val serviceListType = request.userRequest.service_type
-//            for (serviceType in serviceListType){
-//                if (serviceType.toLowerCase().contains(newText.toLowerCase())){
-//                    searchedRequestList.add(request)
-//                }
-//            }
-//        }
-//
-//        adapter = UserRequestAdapter(searchedRequestList, context!!)
-//        recyclerView.adapter = adapter
-//
-//    }
-
-
 }

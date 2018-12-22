@@ -119,13 +119,6 @@ class UserRequestAdapter(
 
         }
     }
-
-    // Filter for search view
-    fun setFilter(newList: ArrayList<FullRequest>) {
-        userRequestList = ArrayList()
-        (userRequestList as ArrayList<FullRequest>).addAll(newList)
-        notifyDataSetChanged()
-    }
 }
 
 class UserRequestHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
