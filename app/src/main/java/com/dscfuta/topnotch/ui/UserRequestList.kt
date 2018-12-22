@@ -1,16 +1,16 @@
 package com.dscfuta.topnotch.ui
 
 
+import android.app.SearchManager
+import android.content.ContentValues.TAG
+import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Canvas
 import android.graphics.Paint
 import android.os.Bundle
 import android.util.DisplayMetrics
-import android.view.LayoutInflater
-import android.view.View
 import android.view.View.*
-import android.view.ViewGroup
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -26,19 +26,29 @@ import com.dscfuta.topnotch.databinding.FragmentUserRequestListBinding
 import com.dscfuta.topnotch.model.FullRequest
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
+import android.util.Log
+import android.view.*
+import android.widget.SearchView
+import androidx.core.view.MenuItemCompat
+import com.dscfuta.topnotch.MainActivity
 import com.dscfuta.topnotch.helpers.SearchQueryEvent
 import com.dscfuta.topnotch.helpers.drawableToBitmap
+import com.dscfuta.topnotch.model.UserRequest
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 
 
-class UserRequestList : Fragment(){
+class UserRequestList : Fragment(), SearchView.OnQueryTextListener{
+
     lateinit var binding: FragmentUserRequestListBinding
     lateinit var adapter: UserRequestAdapter
     lateinit var viewModel: RequestsViewModel
     lateinit var recyclerView: RecyclerView
     lateinit var originalUserRequestList: List<FullRequest>
+
+    //FOr search purpose
+    lateinit var searchView: SearchView
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -167,22 +177,70 @@ class UserRequestList : Fragment(){
         return  Math.round(dp * (resources).displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT)
     }
 
-    override fun onResume() {
+    /*override fun onResume() {
         super.onResume()
         EventBus.getDefault().register(this)
     }
 
     override fun onPause() {
         super.onPause()
-        EventBus.getDefault().unregister(this)
+        *//*EventBus.getDefault().unregister(this)*//*
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun onSearchQuery(event: SearchQueryEvent) {
     val query = event.findQuery()
-    /*adapter.getFilter().filter(query);*/
-}
+    *//*adapter.getFilter().filter(query);*//*
+    }*/
 
+    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
+        inflater!!.inflate(R.menu.main_menu, menu!!)
+        val searchItem = menu.findItem(R.id.main_menu_search)
+
+        var searchManager : SearchManager= activity!!.getSystemService(Context.SEARCH_SERVICE) as SearchManager
+
+        if(searchItem != null){
+            searchView = searchItem.actionView as SearchView
+        }
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(activity!!.componentName))
+
+        searchView.setOnQueryTextListener(this)
+
+        /*var searchView = SearchView((context, activity.actionBar)
+        searchView.queryHint= "Search Requests..."
+        searchView.isIconified = false
+        searchView.setOnQueryTextListener(SearchView.OnQueryTextListener{
+
+        })*/
+
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        return super.onOptionsItemSelected(item)
+    }
+
+    override fun onQueryTextSubmit(query: String?): Boolean {
+        Log.i(TAG, "onQueryTextSubmit + $query")
+        return false
+    }
+
+    override fun onQueryTextChange(newText: String?): Boolean {
+        Log.i(TAG, "onQueryTextChange + $newText")
+        val myT = newText!!.toLowerCase()
+
+        val newList = ArrayList<FullRequest>()
+
+        for ( userRequest in originalUserRequestList){
+            val name = userRequest.userRequest.name.toLowerCase()
+
+            if(name.startsWith(myT)){
+                newList.add(userRequest)
+            }
+            adapter.setFilter(newList)
+        }
+        return true
+    }
     //Function that is supposed to refill the adapter as new text is typed into the search view..
 //    fun onQueryTextSubmit( newText: String){
 //

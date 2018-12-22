@@ -21,11 +21,15 @@ import com.dscfuta.topnotch.data.RequestsViewModel
 import com.dscfuta.topnotch.helpers.OnDeleteRequestButtonClickListener
 import com.dscfuta.topnotch.helpers.OnUserRequestItemClickListener
 import com.dscfuta.topnotch.helpers.SearchQueryEvent
+import com.dscfuta.topnotch.model.FullRequest
+import com.dscfuta.topnotch.model.UserRequest
+import com.dscfuta.topnotch.ui.UserRequestList
 import com.dscfuta.topnotch.ui.UserRequestListDirections
 import com.google.firebase.iid.FirebaseInstanceId
 import net.alexandroid.shpref.ShPref
 import org.greenrobot.eventbus.EventBus
 import java.io.IOException
+import java.lang.reflect.Constructor
 
 class MainActivity : AppCompatActivity(), OnUserRequestItemClickListener, OnDeleteRequestButtonClickListener, SearchView.OnQueryTextListener {
 
@@ -60,8 +64,17 @@ class MainActivity : AppCompatActivity(), OnUserRequestItemClickListener, OnDele
     }
 
     override fun onQueryTextChange(newText: String): Boolean {
-        EventBus.getDefault().post(SearchQueryEvent(newText))
-        return false
+
+        /*var thisFragment = UserRequestList()
+
+        val newText = newText.toLowerCase()
+        val newList = ArrayList<FullRequest>()
+
+        var b = for (thisFragment!!.originalUserRequestList in FullRequest::class.members) {
+
+        }*/
+/*        thisFragment.adapter.setFilter(newList)*/
+        return true
     }
 
     private fun initView(){
