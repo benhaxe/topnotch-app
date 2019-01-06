@@ -29,7 +29,6 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
     }
 
     override fun onMessageReceived(remoteMessage: RemoteMessage?) {
-        super.onMessageReceived(remoteMessage)
 
         remoteMessage?.let {
             Log.i(TAG, it.data["message"])
