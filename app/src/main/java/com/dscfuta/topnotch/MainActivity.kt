@@ -19,6 +19,10 @@ import com.dscfuta.topnotch.ui.UserRequestListDirections
 import com.google.firebase.iid.FirebaseInstanceId
 import net.alexandroid.shpref.ShPref
 import java.io.IOException
+import com.google.android.gms.tasks.OnSuccessListener
+import com.google.firebase.messaging.FirebaseMessaging
+
+
 
 class MainActivity : AppCompatActivity(), OnUserRequestItemClickListener, OnDeleteRequestButtonClickListener{
 
@@ -46,6 +50,8 @@ class MainActivity : AppCompatActivity(), OnUserRequestItemClickListener, OnDele
                 Log.d(this@MainActivity.toString(), "This error: ${e.message}")
             }
         })
+
+        /*FirebaseMessaging.getInstance().subscribeToTopic("Owner").addOnSuccessListener { Toast.makeText(applicationContext, "Success", Toast.LENGTH_LONG).show() }*/
     }
 
     override fun onUserRequestItemClick(v: View,

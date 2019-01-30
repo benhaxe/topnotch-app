@@ -7,6 +7,7 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:actionBarWidgetTheme">@style/ToolbarTheme</item>
+        <item name="android:fontFamily">@font/abeezee</item>
     </style>
 
     <!--App bar styles-->
@@ -17,8 +18,8 @@
     </style>
 
     <style name="icon_action_style">
-        <item name="android:layout_width">45dp</item>
-        <item name="android:layout_height">45dp</item>
+        <item name="android:layout_width">35dp</item>
+        <item name="android:layout_height">35dp</item>
         <item name="android:background">@android:color/transparent</item>
         <item name="android:padding">4dp</item>
         <item name="android:scaleType">centerCrop</item>
@@ -33,8 +34,8 @@
     </style>
 
     <style name="user_label">
-        <item name="android:layout_width">40dp</item>
-        <item name="android:layout_height">40dp</item>
+        <item name="android:layout_width">35dp</item>
+        <item name="android:layout_height">35dp</item>
         <item name="android:layout_gravity">center_vertical</item>
         <item name="android:gravity">center</item>
         <item name="android:textColor">@android:color/white</item>

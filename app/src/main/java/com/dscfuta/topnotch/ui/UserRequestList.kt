@@ -29,7 +29,10 @@ import android.graphics.drawable.Drawable
 import android.os.Build
 import android.util.Log
 import android.view.*
+import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.SearchView
+import android.widget.Toast.*
 import androidx.annotation.RequiresApi
 import androidx.core.view.MenuItemCompat
 import com.dscfuta.topnotch.MainActivity
@@ -179,7 +182,11 @@ class UserRequestList : Fragment(), SearchView.OnQueryTextListener{
         return  Math.round(dp * (resources).displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT)
     }
 
-    @RequiresApi(Build.VERSION_CODES.HONEYCOMB)
+    private fun filterBy(){
+        makeText(context, "Filter By is clicked", LENGTH_SHORT).show()
+    }
+
+    /*@RequiresApi(Build.VERSION_CODES.HONEYCOMB)*/
     override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
         inflater!!.inflate(R.menu.main_menu, menu!!)
         val searchItem = menu.findItem(R.id.main_menu_search)
@@ -195,10 +202,23 @@ class UserRequestList : Fragment(), SearchView.OnQueryTextListener{
         searchView.queryHint= "Search Requests..."
         searchView.isIconified = false
 
+        //Remove the Search icon that shows inside the search edit text view
+        val magId = resources.getIdentifier("android:id/search_mag_icon", null, null)
+        val magImage = searchView.findViewById<ImageView>(magId)
+        magImage.layoutParams = LinearLayout.LayoutParams(0, 0)
+
+        magImage.visibility = GONE
+
+        searchView.setIconifiedByDefault(false)
+
         super.onCreateOptionsMenu(menu, inflater)
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        val itemId = item!!.itemId
+        when(itemId){
+            R.id.action_filter -> filterBy()
+        }
         return super.onOptionsItemSelected(item)
     }
 

@@ -5,51 +5,65 @@
 
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
-        android:layout_marginTop="3dp"
+        android:layout_margin="5dp"
         app:cardElevation="2dp"
+        app:cardCornerRadius="8dp"
         android:layout_height="wrap_content">
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="3dp"
-            android:orientation="vertical">
+            android:layout_margin="3dp">
 
 
             <TextView
                 android:id="@+id/item_user_request_label"
                 style="@style/user_label"
-                android:paddingStart="12dp"
-                android:paddingEnd="12dp"
+                android:textAlignment="center"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:paddingBottom="8dp"
                 android:text="B" />
 
             <TextView
                 android:id="@+id/item_user_request_user_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="4dp"
                 android:padding="8dp"
                 android:layout_toRightOf="@id/item_user_request_label"
                 android:gravity="start"
                 android:text="Benjamin Masebinu"
                 android:textColor="@android:color/black"
-                android:textSize="18sp" />
+                android:textSize="16sp" />
 
             <include
+                android:layout_marginTop="2dp"
                 android:id="@+id/vertical_divider"
                 android:layout_below="@+id/item_user_request_label"
                 layout="@layout/include_divider"
                 android:layout_height="1dp"
                 android:layout_width="match_parent"/>
 
+            <ImageButton
+                android:layout_marginTop="4dp"
+                android:scaleType="centerInside"
+                android:padding="5dp"
+                android:id="@+id/icon"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_below="@id/item_user_request_label"
+                android:background="@android:color/transparent"
+                app:srcCompat="@drawable/ic_date"/>
+
             <TextView
-                android:drawableLeft="@drawable/ic_date"
-                android:drawablePadding="4dp"
+                android:layout_toRightOf="@+id/icon"
                 android:text="dhjhdhdhdhd"
+                android:layout_marginTop="6dp"
                 android:id="@+id/item_user_request_event_date"
-                android:layout_below="@+id/vertical_divider"
-                android:padding="10dp"
-                android:textSize="16sp"
+                android:layout_below="@+id/item_user_request_label"
+                android:padding="4dp"
+                android:textSize="12sp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
         </RelativeLayout>

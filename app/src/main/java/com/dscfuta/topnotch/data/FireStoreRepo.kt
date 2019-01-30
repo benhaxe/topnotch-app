@@ -10,7 +10,7 @@ class FireStoreRepo{
     private val fireStore = FirebaseFirestore.getInstance()
 
     //Retrieves the the requests
-    fun getUserRequestCollection() = fireStore.collection("Users Request")
+    fun getUserRequestCollection() = fireStore.collection("UsersRequests")
 
     fun deleteRequest(
             path: String,

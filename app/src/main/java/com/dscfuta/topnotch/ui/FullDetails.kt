@@ -1,11 +1,13 @@
 package com.dscfuta.topnotch.ui
 
 
+import android.content.ContentValues.TAG
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import android.widget.Toast
 import android.widget.Toast.makeText
@@ -15,14 +17,17 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.dscfuta.topnotch.R
 import com.dscfuta.topnotch.adapter.ServiceTypeAdapter
 import com.dscfuta.topnotch.databinding.FragmentFullDetailsBinding
+import com.dscfuta.topnotch.helpers.LabelHelper
+import com.dscfuta.topnotch.helpers.OnDeleteRequestButtonClickListener
 import net.alexandroid.shpref.ShPref
+import org.jetbrains.anko.backgroundDrawable
 
 
-class FullDetails : Fragment(), View.OnClickListener {
-
-    lateinit var docId : String
+class FullDetails : Fragment(), View.OnClickListener{
     lateinit var binding : FragmentFullDetailsBinding
 
+    lateinit var docId : String
+    lateinit var labelText: String
     lateinit var name : String
     lateinit var phone : String
     lateinit var email: String
@@ -49,6 +54,7 @@ class FullDetails : Fragment(), View.OnClickListener {
         super.onViewCreated(view, savedInstanceState)
         val safeArgs = FullDetailsArgs.fromBundle(arguments)
 
+        docId = safeArgs.id
         name = safeArgs.name
         phone = safeArgs.phoneNumber
         email = safeArgs.email
@@ -62,6 +68,11 @@ class FullDetails : Fragment(), View.OnClickListener {
             tvEventType.text = eventType
             tvEventLocation.text = eventLocation
             tvEventDate.text = safeArgs.eventDate
+
+            labelText = name[0].toString().toUpperCase()
+            Log.d(TAG, "Label text: ${labelText}")
+            tvUserLabel.text = labelText
+            tvUserLabel.backgroundDrawable = LabelHelper.setDrawableFromText(labelText, requireContext())
         }
 
         binding.apply {
