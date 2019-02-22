@@ -27,7 +27,7 @@ android {
         }
     }
 
-    dataBinding{
+    dataBinding {
         enabled = true
     }
 }
@@ -58,6 +58,7 @@ dependencies {
     //[Fire base]
     api "com.google.firebase:firebase-core:$firebase_version"
     api 'com.google.firebase:firebase-firestore:17.1.3'
+    api 'com.google.firebase:firebase-auth:16.1.0'
 
     api 'com.google.firebase:firebase-messaging:17.3.4'
     api 'com.firebase:firebase-jobdispatcher:0.8.5'

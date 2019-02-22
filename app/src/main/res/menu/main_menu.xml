@@ -10,9 +10,9 @@
         app:actionViewClass="android.widget.SearchView"/>
 
     <item
-        android:id="@+id/action_filter"
-        android:title="@string/filter"
+        android:id="@+id/sign_out"
+        android:title="@string/sign_out"
         android:icon="@drawable/ic_filter_list"
-        app:showAsAction="ifRoom"
+        app:showAsAction="never"
         />
 </menu>

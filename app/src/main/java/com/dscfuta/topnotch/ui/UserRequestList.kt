@@ -4,8 +4,8 @@ package com.dscfuta.topnotch.ui
 import android.app.SearchManager
 import android.content.ContentValues.TAG
 import android.content.Context
+import android.content.Intent
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.graphics.Canvas
 import android.graphics.Paint
 import android.os.Bundle
@@ -24,24 +24,13 @@ import com.dscfuta.topnotch.adapter.UserRequestAdapter
 import com.dscfuta.topnotch.data.RequestsViewModel
 import com.dscfuta.topnotch.databinding.FragmentUserRequestListBinding
 import com.dscfuta.topnotch.model.FullRequest
-import android.graphics.drawable.BitmapDrawable
-import android.graphics.drawable.Drawable
-import android.os.Build
 import android.util.Log
 import android.view.*
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.SearchView
-import android.widget.Toast.*
-import androidx.annotation.RequiresApi
-import androidx.core.view.MenuItemCompat
-import com.dscfuta.topnotch.MainActivity
-import com.dscfuta.topnotch.helpers.SearchQueryEvent
 import com.dscfuta.topnotch.helpers.drawableToBitmap
-import com.dscfuta.topnotch.model.UserRequest
-import org.greenrobot.eventbus.EventBus
-import org.greenrobot.eventbus.Subscribe
-import org.greenrobot.eventbus.ThreadMode
+import com.google.firebase.auth.FirebaseAuth
 
 
 class UserRequestList : Fragment(), SearchView.OnQueryTextListener{
@@ -51,6 +40,7 @@ class UserRequestList : Fragment(), SearchView.OnQueryTextListener{
     lateinit var viewModel: RequestsViewModel
     lateinit var recyclerView: RecyclerView
     lateinit var originalUserRequestList: List<FullRequest>
+
 
     //FOr search purpose
     lateinit var searchView: SearchView
@@ -182,8 +172,10 @@ class UserRequestList : Fragment(), SearchView.OnQueryTextListener{
         return  Math.round(dp * (resources).displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT)
     }
 
-    private fun filterBy(){
-        makeText(context, "Filter By is clicked", LENGTH_SHORT).show()
+    private fun signOut(){
+        FirebaseAuth.getInstance().signOut()
+        startActivity(Intent(activity, LoginActivity::class.java))
+        activity!!.finish()
     }
 
     /*@RequiresApi(Build.VERSION_CODES.HONEYCOMB)*/
@@ -217,7 +209,7 @@ class UserRequestList : Fragment(), SearchView.OnQueryTextListener{
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         val itemId = item!!.itemId
         when(itemId){
-            R.id.action_filter -> filterBy()
+            R.id.sign_out -> signOut()
         }
         return super.onOptionsItemSelected(item)
     }

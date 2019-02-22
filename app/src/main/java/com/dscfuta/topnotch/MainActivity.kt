@@ -2,6 +2,7 @@ package com.dscfuta.topnotch
 
 import android.app.ProgressDialog
 import android.content.ContentValues
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -15,11 +16,14 @@ import androidx.navigation.Navigation
 import com.dscfuta.topnotch.data.RequestsViewModel
 import com.dscfuta.topnotch.helpers.OnDeleteRequestButtonClickListener
 import com.dscfuta.topnotch.helpers.OnUserRequestItemClickListener
+import com.dscfuta.topnotch.ui.LoginActivity
 import com.dscfuta.topnotch.ui.UserRequestListDirections
 import com.google.firebase.iid.FirebaseInstanceId
 import net.alexandroid.shpref.ShPref
 import java.io.IOException
 import com.google.android.gms.tasks.OnSuccessListener
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.messaging.FirebaseMessaging
 
 
@@ -27,6 +31,7 @@ import com.google.firebase.messaging.FirebaseMessaging
 class MainActivity : AppCompatActivity(), OnUserRequestItemClickListener, OnDeleteRequestButtonClickListener{
 
     private lateinit var viewModel: RequestsViewModel
+    private lateinit var auth: FirebaseAuth
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -111,7 +116,5 @@ class MainActivity : AppCompatActivity(), OnUserRequestItemClickListener, OnDele
         val alert = dialog.create()
         alert.setCanceledOnTouchOutside(false)
         alert.show()
-
-
     }
 }
